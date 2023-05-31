@@ -13,7 +13,9 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interface/user.interface';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -26,16 +28,11 @@ export class UsersController {
   @Get(':user_idx')
   findId(
     @Param('user_idx', new ParseIntPipe())
-    id: number,
+    user_idx: number,
   ): string {
-    console.log('id : ', id);
+    console.log('id : ', user_idx);
     // get by ID logic
-    return this.usersService.findId(id);
-  }
-
-  @Patch()
-  editUser(@Body() updateUserDto: UpdateUserDto): any {
-    return this.usersService.updateUser(updateUserDto);
+    return this.usersService.findId(user_idx);
   }
 
   @Post('signup')
@@ -47,5 +44,10 @@ export class UsersController {
   @Post('signin')
   signin1(@Body() createUserDto: CreateUserDto): boolean {
     return this.usersService.signin(createUserDto);
+  }
+
+  @Patch()
+  editUser(@Body() updateUserDto: UpdateUserDto): any {
+    return this.usersService.updateUser(updateUserDto);
   }
 }

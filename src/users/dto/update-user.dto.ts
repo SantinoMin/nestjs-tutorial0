@@ -1,7 +1,7 @@
-import { IsInt, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsString } from 'class-validator';
 
 export class UpdateUserDto {
-  @IsString()
+  @IsInt()
   readonly user_idx: string;
 
   @IsString()

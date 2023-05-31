@@ -6,21 +6,21 @@ import { Request } from 'express';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('profile')
-  getHello(@Req() request: Request): string {
-    console.log(request);
-    return this.appService.getHello();
-  }
+  // @Get('profile')
+  // getHello(@Req() request: Request): string {
+  //   console.log(request);
+  //   return this.appService.getHello();
+  // }
 
-  @Get(':id')
-  findOne(@Param() params): string {
-    console.log(params.id);
-    return `This action returns a #${params.id} cat`;
-  }
+  // @Get(':id')
+  // findOne(@Param() params): string {
+  //   console.log(params.id);
+  //   return `This action returns a #${params.id} cat`;
+  // }
 
-  @Post()
-  @HttpCode(204)
-  create() {
-    return 'This action adds a new cat';
-  }
+  // @Post()
+  // @HttpCode(204)
+  // create() {
+  //   return 'This action adds a new cat';
+  // }
 }

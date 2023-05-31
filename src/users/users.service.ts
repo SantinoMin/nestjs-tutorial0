@@ -37,6 +37,7 @@ export class UsersService {
   }
 
   findId(user_idx: number): string {
+    console.log('length', this.users.length);
     if (this.users.length > user_idx) {
       return this.users[user_idx].username;
     } else {
