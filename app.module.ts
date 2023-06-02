@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
+import { User } from 'src/users/entities/users.entity';
 import { UsersModule } from 'src/users/users.module';
 import { GoodsModule } from 'src/goods/goods.module';
 
