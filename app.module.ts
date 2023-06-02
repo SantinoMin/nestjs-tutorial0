@@ -6,6 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/users.entity';
 import { UsersModule } from 'src/users/users.module';
 import { GoodsModule } from 'src/goods/goods.module';
+import { CategoryModule } from './src/category/category.module';
+import { Category } from 'src/category/category.entity';
+import { QuestionModule } from './src/question/question.module';
+import { Question } from 'src/question/question.entity';
 
 @Module({
   imports: [
@@ -18,9 +22,11 @@ import { GoodsModule } from 'src/goods/goods.module';
       username: 'root',
       password: '1234',
       database: 'nestjs-db',
-      entities: [User],
+      entities: [User, Category, Question],
       synchronize: true,
     }),
+    CategoryModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
