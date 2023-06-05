@@ -15,69 +15,79 @@ export class UsersService {
     private dataSource: DataSource,
   ) {}
 
-  // find()메소드 =
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  //   // find()메소드 =
+  //   findAll(): Promise<User[]> {
+  //     return this.usersRepository.find();
+  //   }
+
+  //   findOne(id: number): Promise<User> {
+  //     return this.usersRepository.findOneBy({ id });
+  //   }
+
+  //   async remove(id: string): Promise<void> {
+  //     await this.usersRepository.delete(id);
+  //   }
+
+  //   async createMany(users: User[]) {
+  //     const queryRunner = this.dataSource.createQueryRunner();
+
+  //     await queryRunner.connect();
+  //     await queryRunner.startTransaction();
+
+  //     try {
+  //       await queryRunner.manager.save(users[0]);
+  //       await queryRunner.manager.save(users[1]);
+
+  //       await queryRunner.commitTransaction();
+  //     } catch (err) {
+  //       // since we have errors lets rollback the changes we made
+  //       await queryRunner.rollbackTransaction();
+  //     } finally {
+  //       // you need to release a queryRunner which was manually instantiated
+  //       await queryRunner.release();
+  //     }
+  //   }
+  // }
+
+  private readonly users: User[] = [];
+
+  signup(createUserDto: CreateUserDto): Promise<User> {
+    const { username, password } = createUserDto;
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const user = new User();
+    user.username = username;
+    user.password = hash;
+    user.salt = salt;
+
+    return this.usersRepository.save(user);
   }
 
-  findOne(id: number): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
-  }
+  async signin(createUserDto: CreateUserDto): Promise<User> {
+    const { username, password } = createUserDto;
+    const userResult = await this.dataSource
 
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
-  }
-
-  async createMany(users: User[]) {
-    const queryRunner = this.dataSource.createQueryRunner();
-
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
-    try {
-      await queryRunner.manager.save(users[0]);
-      await queryRunner.manager.save(users[1]);
-
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      // since we have errors lets rollback the changes we made
-      await queryRunner.rollbackTransaction();
-    } finally {
-      // you need to release a queryRunner which was manually instantiated
-      await queryRunner.release();
-    }
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.username = :id', { username: username })
+      // .andWhere('user.lastName = :lastName', { lastName: 'Saw' })
+      .getOne();
+    console.log(userResult);
+    return userResult;
   }
 }
 
-// private readonly users: User[] = [];
+// let authCheck = false;
+// this.users.forEach((item) => {
+//   const hash = bcrypt.hashSync(password, item.salt);
 
-// signup(createUserDto: CreateUserDto): User {
-//   const { username, password } = createUserDto;
-//   const saltRounds = 10;
-//   const salt = bcrypt.genSaltSync(saltRounds);
-//   const hash = bcrypt.hashSync(password, salt);
-
-//   const user: User = {
-//     username: username,
-//     password: hash,
-//     salt: salt,
-//   };
-//   this.users.push(user);
-//   return user;
-// }
-
-// signin(createUserDto: CreateUserDto): boolean {
-//   const { username, password } = createUserDto;
-//   let authCheck = false;
-//   this.users.forEach((item) => {
-//     const hash = bcrypt.hashSync(password, item.salt);
-
-//     if (item.username == username && item.password == password) {
-//       authCheck = true;
-//     }
-//   });
-//   return authCheck;
-// }
+//   if (item.username == username && item.password == password) {
+//     authCheck = true;
+//   }
+// });
+// return authCheck;
 
 // findId(user_idx: number): string {
 //   console.log('length', this.users.length);
