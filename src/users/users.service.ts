@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { User } from './entities/users.entity';
 
 @Injectable()
@@ -12,6 +12,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    private dataSource: DataSource,
   ) {}
 
   // find()메소드 =
@@ -27,65 +28,85 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
-  // private readonly users: User[] = [];
+  async createMany(users: User[]) {
+    const queryRunner = this.dataSource.createQueryRunner();
 
-  // signup(createUserDto: CreateUserDto): User {
-  //   const { username, password } = createUserDto;
-  //   const saltRounds = 10;
-  //   const salt = bcrypt.genSaltSync(saltRounds);
-  //   const hash = bcrypt.hashSync(password, salt);
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-  //   const user: User = {
-  //     username: username,
-  //     password: hash,
-  //     salt: salt,
-  //   };
-  //   this.users.push(user);
-  //   return user;
-  // }
+    try {
+      await queryRunner.manager.save(users[0]);
+      await queryRunner.manager.save(users[1]);
 
-  // signin(createUserDto: CreateUserDto): boolean {
-  //   const { username, password } = createUserDto;
-  //   let authCheck = false;
-  //   this.users.forEach((item) => {
-  //     const hash = bcrypt.hashSync(password, item.salt);
-
-  //     if (item.username == username && item.password == password) {
-  //       authCheck = true;
-  //     }
-  //   });
-  //   return authCheck;
-  // }
-
-  // findId(user_idx: number): string {
-  //   console.log('length', this.users.length);
-  //   if (this.users.length > user_idx) {
-  //     return this.users[user_idx].username;
-  //   } else {
-  //     return 'User not found';
-  //   }
-  // }
-
-  // findAll(): User[] {
-  //   return this.users;
-  // }
-
-  // updateUser(updateUserDto: UpdateUserDto): any {
-  //   const { user_idx, username, password } = updateUserDto;
-  //   if (this.users.length > parseInt(user_idx)) {
-  //     const saltRounds = 10;
-  //     const salt = bcrypt.genSaltSync(saltRounds);
-  //     const hash = bcrypt.hashSync(password, salt);
-
-  //     const user: User = {
-  //       username: username,
-  //       password: hash,
-  //       salt: salt,
-  //     };
-  //     this.users[user_idx] = user;
-  //     return user;
-  //   } else {
-  //     return 'User not found';
-  //   }
-  // }
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+  }
 }
+
+// private readonly users: User[] = [];
+
+// signup(createUserDto: CreateUserDto): User {
+//   const { username, password } = createUserDto;
+//   const saltRounds = 10;
+//   const salt = bcrypt.genSaltSync(saltRounds);
+//   const hash = bcrypt.hashSync(password, salt);
+
+//   const user: User = {
+//     username: username,
+//     password: hash,
+//     salt: salt,
+//   };
+//   this.users.push(user);
+//   return user;
+// }
+
+// signin(createUserDto: CreateUserDto): boolean {
+//   const { username, password } = createUserDto;
+//   let authCheck = false;
+//   this.users.forEach((item) => {
+//     const hash = bcrypt.hashSync(password, item.salt);
+
+//     if (item.username == username && item.password == password) {
+//       authCheck = true;
+//     }
+//   });
+//   return authCheck;
+// }
+
+// findId(user_idx: number): string {
+//   console.log('length', this.users.length);
+//   if (this.users.length > user_idx) {
+//     return this.users[user_idx].username;
+//   } else {
+//     return 'User not found';
+//   }
+// }
+
+// findAll(): User[] {
+//   return this.users;
+// }
+
+// updateUser(updateUserDto: UpdateUserDto): any {
+//   const { user_idx, username, password } = updateUserDto;
+//   if (this.users.length > parseInt(user_idx)) {
+//     const saltRounds = 10;
+//     const salt = bcrypt.genSaltSync(saltRounds);
+//     const hash = bcrypt.hashSync(password, salt);
+
+//     const user: User = {
+//       username: username,
+//       password: hash,
+//       salt: salt,
+//     };
+//     this.users[user_idx] = user;
+//     return user;
+//   } else {
+//     return 'User not found';
+//   }
+// }

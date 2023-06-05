@@ -11,7 +11,7 @@ export class QuestionService {
     private questionRepository: Repository<Question>,
   ) {}
 
-  cascadeTest(): Promise<User[]> {
+  async cascadeTest(): Promise<Question> {
     const category1 = new Category();
     category1.name = 'ORMs';
 

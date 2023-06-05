@@ -9,7 +9,8 @@ import {
 
 @Entity()
 export class Question {
-  @PrimaryGeneratedColumn() id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   title: string;
@@ -17,7 +18,7 @@ export class Question {
   @Column()
   text: string;
 
-  @ManyToMany((type) => Category, (category) => category.quesitons, {
+  @ManyToMany((type) => Category, (category) => category.questions, {
     cascade: true,
   })
   @JoinTable()
