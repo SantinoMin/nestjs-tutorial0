@@ -21,7 +21,7 @@ import { User } from './entities/users.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  // @Post()
   // createMany() {
   //   const user1 = new User();
   //   user1.firstName = 'first';

@@ -49,7 +49,7 @@ export class UsersService {
   //   }
   // }
 
-  private readonly users: User[] = [];
+  // private readonly users: User[] = [];
 
   signup(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
@@ -68,7 +68,6 @@ export class UsersService {
   async signin(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
     const userResult = await this.dataSource
-
       .getRepository(User)
       .createQueryBuilder('user')
       .where('user.username = :id', { username: username })
