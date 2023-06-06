@@ -21,17 +21,17 @@ import { User } from './entities/users.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Post()
-  // createMany() {
-  //   const user1 = new User();
-  //   user1.firstName = 'first';
-  //   user1.lastName = 'last';
+  @Post()
+  createMany() {
+    const user1 = new User();
+    user1.firstName = 'first';
+    user1.lastName = 'last';
 
-  //   const user2 = new User();
-  //   user2.firstName = 'sangmin';
-  //   user2.lastName = 'seok';
-  //   this.usersService.createMany([user1, user2]);
-  // }
+    const user2 = new User();
+    user2.firstName = 'sangmin';
+    user2.lastName = 'seok';
+    this.usersService.createMany([user1, user2]);
+  }
 
   // @Get()
   // getList(): User[] {
@@ -47,15 +47,15 @@ export class UsersController {
   //   // get by ID logic
   //   return this.usersService.findId(user_idx);
   // }
-  @Post('signup')
-  signup1(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.signup(createUserDto);
-  }
+  // @Post('signup')
+  // signup1(@Body() createUserDto: CreateUserDto): Promise<User> {
+  //   return this.usersService.signup(createUserDto);
+  // }
 
-  @Post('signin')
-  signin1(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.signin(createUserDto);
-  }
+  // @Post('signin')
+  // signin1(@Body() createUserDto: CreateUserDto): Promise<User> {
+  //   return this.usersService.signin(createUserDto);
+  // }
 
   // @Patch()
   // editUser(@Body() updateUserDto: UpdateUserDto): any {

@@ -5,11 +5,17 @@ export class User {
   @PrimaryGeneratedColumn()
   user_idx: number;
 
-  @Column()
-  username: string;
+  // @Column()
+  // username: string;
+
+  // @Column()
+  // password: string;
 
   @Column()
-  password: string;
+  firstName: string;
+
+  @Column()
+  lastName: string;
 
   @Column()
   salt: string;

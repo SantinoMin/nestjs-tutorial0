@@ -18,7 +18,7 @@ export class Question {
   @Column()
   text: string;
 
-  @ManyToMany((type) => Category, (category) => category.questions, {
+  @ManyToMany((type) => Category, (category) => category.question, {
     cascade: true,
   })
   @JoinTable()

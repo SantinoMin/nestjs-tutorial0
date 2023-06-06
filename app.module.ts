@@ -23,7 +23,7 @@ import { Question } from 'src/question/question.entity';
       password: '1234',
       database: 'nestjs-db',
       autoLoadEntities: true,
-      entities: [User, Category, Question],
+      // entities: [User, Category, Question],
       synchronize: true,
     }),
     CategoryModule,

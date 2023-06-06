@@ -9,24 +9,27 @@ import { User } from './entities/users.entity';
 
 @Injectable()
 export class UsersService {
+  createMany(User) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private dataSource: DataSource,
   ) {}
 
-  //   // find()메소드 =
-  //   findAll(): Promise<User[]> {
-  //     return this.usersRepository.find();
-  //   }
+  // // find()메소드 =
+  // findAll(): Promise<User[]> {
+  //   return this.usersRepository.find();
+  // }
 
-  //   findOne(id: number): Promise<User> {
-  //     return this.usersRepository.findOneBy({ id });
-  //   }
+  // findOne(id: number): Promise<User> {
+  //   return this.usersRepository.findOneBy({ id });
+  // }
 
-  //   async remove(id: string): Promise<void> {
-  //     await this.usersRepository.delete(id);
-  //   }
+  // async remove(id: string): Promise<void> {
+  //   await this.usersRepository.delete(id);
+  // }
 
   //   async createMany(users: User[]) {
   //     const queryRunner = this.dataSource.createQueryRunner();
@@ -51,19 +54,19 @@ export class UsersService {
 
   // private readonly users: User[] = [];
 
-  signup(createUserDto: CreateUserDto): Promise<User> {
-    const { username, password } = createUserDto;
-    const saltRounds = 10;
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(password, salt);
+  // signup(createUserDto: CreateUserDto): Promise<User> {
+  //   const { username, password } = createUserDto;
+  //   const saltRounds = 10;
+  //   const salt = bcrypt.genSaltSync(saltRounds);
+  //   const hash = bcrypt.hashSync(password, salt);
 
-    const user = new User();
-    user.username = username;
-    user.password = hash;
-    user.salt = salt;
+  //   const user = new User();
+  //   user.username = username;
+  //   user.password = hash;
+  //   user.salt = salt;
 
-    return this.usersRepository.save(user);
-  }
+  //   return this.usersRepository.save(user);
+  // }
 
   async signin(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;

@@ -18,9 +18,9 @@ export class Category {
   // @Column()
   // description: string;
 
-  // @ManyToOne((type) => Category, (category) => category.children)
-  // parent: Category;
+  @ManyToOne((type) => Question, (question) => question.categories)
+  question: Question[];
 
-  @OneToMany((type) => Question, (question) => question.categories)
-  questions: Question[];
+  // @OneToMany((type) => Category, (category) => category.parent)
+  // children: Category[];
 }
