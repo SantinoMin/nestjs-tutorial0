@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
-import { Good } from './interface/goods.interface';
+import { Good } from './entities/good.entity';
 
 @Injectable()
 export class GoodsService {

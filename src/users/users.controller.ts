@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -15,50 +16,58 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/users.entity';
+import { DeleteResult } from 'typeorm';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  createMany() {
-    const user1 = new User();
-    user1.firstName = 'first';
-    user1.lastName = 'last';
-
-    const user2 = new User();
-    user2.firstName = 'sangmin';
-    user2.lastName = 'seok';
-    this.usersService.createMany([user1, user2]);
+  @Get()
+  getList(): Promise<User[]> {
+    return this.usersService.findAll();
   }
 
-  // @Get()
-  // getList(): User[] {
-  //   return this.usersService.findAll();
+  @Get(':user_idx')
+  findIdx(
+    @Param('user_idx', new ParseIntPipe()) user_idx: number,
+  ): Promise<User> {
+    console.log('id : ', user_idx);
+    return this.usersService.findIdx(user_idx);
+  }
+
+  // @Post()
+  // createMany() {
+  // const user1 = new User();
+  //   user1.username = 'santino';
+  //   user1.password = '123';
+
+  //   const user2 = new User();
+  //   user2.username = 'sangmin';
+  //   user2.password = '234';
+  //   this.usersService.createMany([user1, user2]);
   // }
 
-  // @Get(':user_idx')
-  // findId(
-  //   @Param('user_idx', new ParseIntPipe())
-  //   user_idx: number,
-  // ): string {
-  //   console.log('id : ', user_idx);
-  //   // get by ID logic
-  //   return this.usersService.findId(user_idx);
-  // }
-  // @Post('signup')
-  // signup1(@Body() createUserDto: CreateUserDto): Promise<User> {
-  //   return this.usersService.signup(createUserDto);
-  // }
+  @Post('signup')
+  signup1(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.signup(createUserDto);
+  }
 
-  // @Post('signin')
-  // signin1(@Body() createUserDto: CreateUserDto): Promise<User> {
-  //   return this.usersService.signin(createUserDto);
-  // }
+  @Post('signin')
+  signin2(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.signin(createUserDto);
+  }
 
-  // @Patch()
-  // editUser(@Body() updateUserDto: UpdateUserDto): any {
-  //   return this.usersService.updateUser(updateUserDto);
-  // }
+  @Patch()
+  editUser(@Body() updateUserDto: UpdateUserDto): Promise<any> {
+    return this.usersService.updateUser(updateUserDto);
+  }
+
+  @Delete(':user_idx')
+  remove(
+    @Param('user_idx', new ParseIntPipe()) user_idx: number,
+  ): Promise<DeleteResult> {
+    console.log('id : ', user_idx);
+    return this.usersService.remove(user_idx);
+  }
 }

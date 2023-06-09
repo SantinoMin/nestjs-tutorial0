@@ -1,4 +1,4 @@
-export interface Good {
-  goods_name: string;
-  price: number;
-}
+// export interface Good {
+//   goods_name: string;
+//   price: number;
+// }
