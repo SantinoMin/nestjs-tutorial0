@@ -1,4 +1,4 @@
 export class CreateGoodDto {
-  goods_name: string;
+  good_name: string;
   price: number;
 }

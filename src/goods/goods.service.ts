@@ -1,43 +1,64 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Post } from '@nestjs/common';
 import { CreateGoodDto } from './dto/create-good.dto';
 import { UpdateGoodDto } from './dto/update-good.dto';
 import { Good } from './entities/good.entity';
+import { DataSource, DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class GoodsService {
-  private readonly goods: Good[] = [];
+  constructor(private dataSource: DataSource) {}
 
-  create(createGoodDto: CreateGoodDto): Good {
-    const { goods_name, price } = createGoodDto;
-    const good = {
-      goods_name: goods_name,
-      price: price,
-    };
-    this.goods.push(good);
-    return good;
+  @Post()
+  async create(createGoodDto: CreateGoodDto): Promise<InsertResult> {
+    const { good_name, price } = createGoodDto;
+
+    // const good = new Good{
+    //   good_name: good_name,
+    //   price: price
+    // }
+    return await this.dataSource
+      .createQueryBuilder()
+      .insert()
+      .into(Good)
+      .values({ good_name: good_name, price: price })
+      .execute();
   }
 
-  findAll() {
-    return `This action returns all goods`;
+  async findAll(): Promise<Good[]> {
+    return await this.dataSource
+      .getRepository(Good)
+      .createQueryBuilder('user')
+      // .where('user.id = :id', { id: 1 })
+      .getMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} good`;
+  async findOne(good_idx: number): Promise<Good> {
+    return await this.dataSource
+      .getRepository(Good)
+      .createQueryBuilder('Good')
+      .where('Good.good_idx = :good_idx', { good_idx: good_idx })
+      .getOne();
   }
 
-  update(id: number, updateGoodDto: UpdateGoodDto) {
-    const { goods_name, price } = updateGoodDto;
-    const good = {
-      goods_name: goods_name,
-      price: price,
-    };
-    //* 이 부분 이해가 안됨 바로 아래 부분
-    this.goods[id] = good;
-
-    return this.goods[id];
+  async update(
+    good_idx: number,
+    updateGoodDto: UpdateGoodDto,
+  ): Promise<UpdateResult> {
+    const { good_name, price } = updateGoodDto;
+    return await this.dataSource
+      .createQueryBuilder()
+      .update(Good)
+      .set({ good_name: good_name, price: price })
+      .where('good_idx = :good_idx', { good_idx: good_idx })
+      .execute();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} good`;
+  async remove(good_idx: number): Promise<DeleteResult> {
+    return await this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .from(Good)
+      .where('good_idx = :good_idx', { good_idx: good_idx })
+      .execute();
   }
 }
