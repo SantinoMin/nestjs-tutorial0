@@ -18,6 +18,25 @@ export class UsersService {
     private dataSource: DataSource,
   ) {}
 
+  private readonly users = [
+    {
+      user_idx: 1,
+      username: 'john',
+      password: 'changeme',
+      salt: 'salt',
+    },
+    {
+      user_idx: 2,
+      username: 'maria',
+      password: 'guess',
+      salt: 'salt',
+    },
+  ];
+
+  async findOne(username: string): Promise<User | undefined> {
+    return this.users.find((user) => user.username === username);
+  }
+
   // // find()메소드 =
   async findAll(): Promise<User[]> {
     return await this.dataSource

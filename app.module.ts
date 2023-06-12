@@ -10,6 +10,7 @@ import { CategoryModule } from './src/category/category.module';
 import { Category } from 'src/category/category.entity';
 import { QuestionModule } from './src/question/question.module';
 import { Question } from 'src/question/question.entity';
+import { AuthModule } from './src/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Question } from 'src/question/question.entity';
     }),
     CategoryModule,
     QuestionModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
