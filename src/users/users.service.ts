@@ -21,8 +21,8 @@ export class UsersService {
   private readonly users = [
     {
       user_idx: 1,
-      username: 'john',
-      password: 'changeme',
+      username: 'santino',
+      password: 'tino1',
       salt: 'salt',
     },
     {
@@ -33,6 +33,8 @@ export class UsersService {
     },
   ];
 
+  // user.username은 users 배열[]안에 있는 'santino'가 될것임(예시)
+  // 그리고 === username의 username은 body에 넣는 값일걸로 보임
   async findOne(username: string): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
   }
