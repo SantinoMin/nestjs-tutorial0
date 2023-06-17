@@ -48,20 +48,8 @@ export class UsersController {
   @Post('auth/login')
   async login(@Request() req) {
     // return req.user;
-    return await this.authService.login(req.user);
+    return this.authService.login(req.user);
   }
-
-  // @Post()
-  // createMany() {
-  // const user1 = new User();
-  //   user1.username = 'santino';
-  //   user1.password = '123';
-
-  //   const user2 = new User();
-  //   user2.username = 'sangmin';
-  //   user2.password = '234';
-  //   this.usersService.createMany([user1, user2]);
-  // }
 
   @Post('signup')
   signup1(@Body() createUserDto: CreateUserDto): Promise<User> {

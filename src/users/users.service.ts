@@ -100,8 +100,6 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  /////////
-
   async signin(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
     return await this.dataSource
