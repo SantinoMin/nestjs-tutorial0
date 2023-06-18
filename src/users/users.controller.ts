@@ -47,6 +47,7 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
+    console.log(req);
     // return req.user;
     return this.authService.login(req.user);
   }
@@ -55,6 +56,8 @@ export class UsersController {
   signup1(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.signup(createUserDto);
   }
+
+  // layered architecture
 
   @Post('signin')
   signin2(@Body() createUserDto: CreateUserDto): Promise<User> {
