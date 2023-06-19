@@ -19,9 +19,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/users.entity';
 import { DeleteResult } from 'typeorm';
-import { AuthGuard } from '@nestjs/passport';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('users')
 @Controller('users')
@@ -44,7 +44,7 @@ export class UsersController {
     return this.usersService.findIdx(user_idx);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Request() req) {
     console.log(req);
