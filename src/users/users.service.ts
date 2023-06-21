@@ -112,6 +112,7 @@ export class UsersService {
 
   // 동기 비동기
   // await는 동기방식일 때 작성
+  // 동기 비동기식 공부
 
   //회원가입 후 바로 로그인 되도록?
 
