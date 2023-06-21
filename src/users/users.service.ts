@@ -86,6 +86,8 @@ export class UsersService {
 
   // private readonly users: User[] = [];
 
+  //saltround = 10 <= 10번 시도 가능
+
   signup(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
     const saltRounds = 10;
