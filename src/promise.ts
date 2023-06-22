@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // 비동기를 표현한 기존의 콜백함수
 // const addFive = (number, callback) => {
 //   setTimeout(() => {
@@ -60,3 +61,24 @@ function printAll(...args) {
     console.log(args[i]);
   }
 }
+=======
+// promise 개념잡으려고 작성해본거임
+
+const timePromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(console.log('connected'));
+    reject(new Error('error'));
+  }, 5000);
+});
+
+timePromise
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+  .finally(() => {
+    console.log('end!');
+  });
+>>>>>>> e8681bafda6aeb8917680e7749ba5afee8bdc0b4

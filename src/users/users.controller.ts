@@ -3,12 +3,10 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
   ParseIntPipe,
   Patch,
   Post,
-  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -48,8 +46,8 @@ export class UsersController {
   @Post('auth/login')
   async login(@Request() req) {
     console.log(req);
-    // return req.user;
-    return this.authService.login(req.user);
+    return req.user;
+    // return this.authService.login(req.user);
   }
 
   @Post('signup')

@@ -86,6 +86,8 @@ export class UsersService {
 
   // private readonly users: User[] = [];
 
+  //saltround = 10 <= 10번 시도 가능
+
   signup(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
     const saltRounds = 10;
@@ -112,6 +114,7 @@ export class UsersService {
 
   // 동기 비동기
   // await는 동기방식일 때 작성
+  // 동기 비동기식 공부
 
   //회원가입 후 바로 로그인 되도록?
 
