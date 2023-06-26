@@ -20,6 +20,7 @@ import { DeleteResult } from 'typeorm';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -40,6 +41,12 @@ export class UsersController {
   ): Promise<User> {
     console.log('id : ', user_idx);
     return this.usersService.findIdx(user_idx);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return req.user;
   }
 
   @UseGuards(AuthGuard('local'))

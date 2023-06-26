@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { Repository } from 'typeorm';
 import { AuthController } from './auth.controller';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -16,13 +17,13 @@ import { AuthController } from './auth.controller';
     TypeOrmModule.forFeature([Repository]),
     PassportModule,
     JwtModule.register({
-      global: true,
+      // global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
   ],
-  providers: [AuthService, UsersService, LocalStrategy],
-  controllers: [AuthController],
+  providers: [AuthService, UsersService, LocalStrategy, JwtStrategy],
+  // controllers: [AuthController],
   exports: [AuthService],
 })
 export class AuthModule {}

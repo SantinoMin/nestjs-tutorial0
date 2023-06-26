@@ -120,14 +120,26 @@ export class UsersService {
 
   async signin(createUserDto: CreateUserDto): Promise<User> {
     const { username, password } = createUserDto;
-    return await this.dataSource
+    const userResult = await this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')
-      .where('user.username = :username', { username: username })
-      // .andWhere('user.lastName = :lastName', { lastName: 'Saw' })
+      .where('user.username = :username', {
+        username: username,
+      })
+      // .andWhere('user.password = :password', { password: password })
       .getOne();
-    // console.log(userResult);
-    // return userResult;
+    const { salt } = userResult;
+    console.log(userResult);
+    const hash = bcrypt.hashSync(password, salt);
+    const signInResult = await this.dataSource
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.username = :username', {
+        username: username,
+      })
+      .andWhere('user.password = :password', { password: hash })
+      .getOne();
+    return signInResult;
   }
 
   // let authCheck = false;
