@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './../users/users.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +19,24 @@ export class AuthService {
     return null;
   }
 
+  // async login(user: any) {
+  // const payload = { username: user.username, sub: user.user_idx };
+  // return {
+  //   access_token: this.jwtService.sign(payload),
+  //   };
+  // }
+
   async login(user: any) {
+    // const user = await this.userService.findOne(loginUser.username);
+    // if (user) {
     const payload = { username: user.username, sub: user.user_idx };
+    console.log(process.env.JWT_SECRET_KEY);
     return {
       access_token: this.jwtService.sign(payload),
     };
+    // else {
+    //   throw new UnauthorizedException({
+    //     error: 'There is no user',
+    //   });
   }
 }

@@ -11,6 +11,8 @@ import { Category } from 'src/category/category.entity';
 import { QuestionModule } from './src/question/question.module';
 import { Question } from 'src/question/question.entity';
 import { AuthModule } from './src/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from 'src/auth/constants';
 
 @Module({
   imports: [
@@ -30,6 +32,10 @@ import { AuthModule } from './src/auth/auth.module';
     CategoryModule,
     QuestionModule,
     AuthModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
