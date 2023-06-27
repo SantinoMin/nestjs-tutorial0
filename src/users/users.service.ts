@@ -21,8 +21,8 @@ export class UsersService {
   private readonly users = [
     {
       user_idx: 1,
-      username: 'santino',
-      password: 'tino1',
+      username: 'sangmin',
+      password: '123',
       salt: 'salt',
     },
     {

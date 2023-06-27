@@ -1,6 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from './../users/users.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { User } from 'src/users/entities/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +18,12 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async tokenValidateUser(payload: Payload): Promise<User | undefined> {
+    return await this.usersService.findByFields({
+      where: { id: payload.id },
+    });
   }
 
   // async login(user: any) {

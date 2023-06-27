@@ -49,12 +49,13 @@ export class UsersController {
     return req.user;
   }
 
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(LocalAuthGuard)
+  // @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Request() req) {
     console.log(req);
-    // return req.user;
-    return this.authService.login(req.user);
+    return req.user;
+    // return this.authService.login(req.user);
   }
 
   @Post('signup')
